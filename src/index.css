@@ -69,16 +69,69 @@ body {
   animation: pulse 0.3s ease;
 }
 
-/* Wiggle animation for SVG shapes */
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(var(--wiggle-intensity, 3deg)); }
-  75% { transform: rotate(calc(-1 * var(--wiggle-intensity, 3deg))); }
+/* Shape animation keyframes — combined transforms to avoid override */
+@keyframes shape-motion {
+  0% {
+    transform:
+      translateY(0)
+      rotate(0deg)
+      scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform:
+      translateY(calc(-0.5 * var(--drift-amount, 0px)))
+      rotate(var(--wiggle-intensity, 0deg))
+      scale(calc(1 + 0.5 * var(--scale-amount, 0)));
+    opacity: calc(1 - 0.5 * var(--opacity-range, 0));
+  }
+  50% {
+    transform:
+      translateY(calc(-1 * var(--drift-amount, 0px)))
+      rotate(0deg)
+      scale(calc(1 + var(--scale-amount, 0)));
+    opacity: var(--opacity-min, 1);
+  }
+  75% {
+    transform:
+      translateY(calc(-0.5 * var(--drift-amount, 0px)))
+      rotate(calc(-1 * var(--wiggle-intensity, 0deg)))
+      scale(calc(1 + 0.5 * var(--scale-amount, 0)));
+    opacity: calc(1 - 0.5 * var(--opacity-range, 0));
+  }
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg)
+      scale(1);
+    opacity: 1;
+  }
 }
 
-.shape-animated {
-  animation: wiggle var(--wiggle-speed, 1.5s) ease-in-out infinite;
-  transform-origin: center center;
+@keyframes spin {
+  from {
+    transform:
+      translateY(0)
+      rotate(0deg)
+      scale(1);
+  }
+  50% {
+    transform:
+      translateY(calc(-1 * var(--drift-amount, 0px)))
+      rotate(180deg)
+      scale(calc(1 + var(--scale-amount, 0)));
+  }
+  to {
+    transform:
+      translateY(0)
+      rotate(360deg)
+      scale(1);
+  }
+}
+
+@keyframes fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: var(--opacity-min, 0.7); }
 }
 
 ::selection {

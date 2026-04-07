@@ -29,7 +29,13 @@ export default function Toolbar({
   onToggleMode,
 }: ToolbarProps) {
   const toggleAnimation = () => {
-    onAnimationChange({ ...animationParams, enabled: !animationParams.enabled });
+    const enabling = !animationParams.enabled;
+    onAnimationChange({
+      ...animationParams,
+      enabled: enabling,
+      drift: enabling && animationParams.drift === 0 ? 8 : animationParams.drift,
+      scale: enabling && animationParams.scale === 0 ? 0.15 : animationParams.scale,
+    });
   };
 
   return (
@@ -65,12 +71,12 @@ export default function Toolbar({
               </svg>
             )}
           </button>
-          <button
-            className={`btn ${animationParams.enabled ? 'btn-active' : 'btn-secondary'}`}
-            onClick={toggleAnimation}
-          >
-            animate
-          </button>
+          <div className="toggle-switch-wrap" onClick={toggleAnimation}>
+            <span className="toggle-switch-label">animate</span>
+            <div className={`toggle-switch ${animationParams.enabled ? 'toggle-switch-on' : ''}`}>
+              <div className="toggle-switch-knob" />
+            </div>
+          </div>
           <button className="btn btn-secondary" onClick={onRegenerate}>
             regenerate
           </button>

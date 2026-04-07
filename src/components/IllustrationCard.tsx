@@ -4,6 +4,7 @@ import type { ColorPalette } from '../utils/colorUtils';
 import type { AnimationParams } from '../utils/animationUtils';
 import type { ExportFormat } from './ExportMenu';
 import ExportMenu from './ExportMenu';
+import Generative from '../illustrations/Generative';
 import { exportCard } from '../utils/exportUtils';
 
 interface IllustrationCardProps {
@@ -16,12 +17,11 @@ interface IllustrationCardProps {
 
 export default function IllustrationCard({ card, palette, delay, animating, animationParams }: IllustrationCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const { Component } = card.illustration;
 
   const handleExport = useCallback(
     (format: ExportFormat) => {
       if (!cardRef.current) return;
-      const filename = `illustra-${card.illustration.name}-${card.word.toLowerCase().replace(/\s+/g, '-')}`;
+      const filename = `illustra-${card.name}`;
       exportCard(cardRef.current, filename, format, palette, animationParams);
     },
     [card, palette, animationParams]
@@ -33,18 +33,18 @@ export default function IllustrationCard({ card, palette, delay, animating, anim
       className={`illustration-card ${animating ? 'card-enter' : ''}`}
       style={{
         animationDelay: `${delay}ms`,
-        backgroundColor: palette.cardBg,
       }}
     >
       <ExportMenu onExport={handleExport} variant="card" />
       <div className="card-illustration">
-        <Component
+        <Generative
           primary={palette.primary}
           dark={palette.dark}
           light={palette.white}
           complementary={palette.complementary}
           animated={animationParams.enabled}
           animationParams={animationParams}
+          composition={card.composition}
         />
       </div>
     </div>

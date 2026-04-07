@@ -114,6 +114,58 @@
   justify-content: center;
 }
 
+/* Toggle switch */
+.toggle-switch-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.toggle-switch-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  color: var(--color-dark);
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+
+.toggle-switch-wrap:hover .toggle-switch-label {
+  opacity: 1;
+}
+
+.toggle-switch {
+  width: 28px;
+  height: 14px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  position: relative;
+  transition: all 200ms ease;
+}
+
+.toggle-switch-knob {
+  width: 8px;
+  height: 8px;
+  background: var(--color-dark);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 200ms ease;
+}
+
+.toggle-switch-on {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.toggle-switch-on .toggle-switch-knob {
+  left: 16px;
+  background: var(--color-black);
+}
+
 .btn-loading {
   display: inline-flex;
   align-items: center;
@@ -135,16 +187,18 @@
 
 /* Main content */
 .main-content {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
 }
 
 /* Grid */
 .illustration-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  gap: 0;
+  border-top: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
 }
 
 /* Card */
@@ -159,13 +213,16 @@
   aspect-ratio: 1;
   cursor: default;
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .illustration-card:hover {
   transform: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 20px var(--hover-glow);
+  background: var(--hover-glow);
+  box-shadow: none;
 }
 
 .illustration-card.card-enter {
@@ -247,15 +304,79 @@
 }
 
 .animation-panel.panel-open {
-  max-height: 80px;
-  border-bottom-color: rgba(255, 255, 255, 0.06);
+  max-height: 240px;
+  border-bottom-color: var(--border-color);
 }
 
 .panel-inner {
   display: flex;
-  gap: 24px;
-  padding: 10px 24px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 24px 14px;
+}
+
+.panel-row {
+  display: flex;
   align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.panel-row-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  color: var(--color-dark);
+  opacity: 0.5;
+  width: 48px;
+  flex-shrink: 0;
+}
+
+.panel-sliders {
+  gap: 16px;
+}
+
+.toggle-group {
+  display: flex;
+  gap: 2px;
+}
+
+.toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 3px 8px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--color-dark);
+  cursor: pointer;
+  text-transform: lowercase;
+  letter-spacing: 0.3px;
+  transition: all 150ms ease;
+}
+
+.toggle-btn:first-child {
+  border-radius: 0;
+}
+
+.toggle-btn:last-child {
+  border-radius: 0;
+}
+
+.toggle-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.toggle-active {
+  background: var(--color-primary);
+  color: var(--color-black);
+  border-color: var(--color-primary);
+}
+
+.toggle-active:hover {
+  opacity: 0.85;
+  color: var(--color-black);
 }
 
 .slider-group {
@@ -369,14 +490,6 @@
 
 /* Tablet */
 @media (max-width: 1024px) {
-  .main-content {
-    padding: 16px;
-  }
-
-  .illustration-grid {
-    gap: 2px;
-  }
-
   .illustration-card {
     padding: 16px;
   }
@@ -418,14 +531,28 @@
     justify-content: center;
   }
 
+  .animation-panel.panel-open {
+    max-height: 360px;
+  }
+
   .panel-inner {
-    flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     padding: 8px 12px;
   }
 
-  .slider-group {
-    width: 100%;
+  .panel-sliders {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .panel-sliders .slider-group {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 100px;
+  }
+
+  .toggle-btn {
+    font-size: 8px;
+    padding: 3px 6px;
   }
 
   .btn {
@@ -433,18 +560,12 @@
     padding: 6px 8px;
   }
 
-  .main-content {
-    padding: 8px;
-  }
-
   .illustration-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
   }
 
   .illustration-card {
     padding: 12px;
-    aspect-ratio: 1;
   }
 
   .card-illustration {
@@ -465,10 +586,6 @@
   .btn {
     font-size: 8px;
     padding: 5px 6px;
-  }
-
-  .illustration-grid {
-    gap: 1px;
   }
 
   .illustration-card {

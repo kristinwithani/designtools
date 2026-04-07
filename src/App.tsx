@@ -47,7 +47,7 @@ function App() {
         gridRef.current.querySelectorAll<HTMLElement>('.illustration-card')
       );
       const names = cards.map(
-        (c) => `illustra-${c.illustration.name}-${c.word.toLowerCase().replace(/\s+/g, '-')}`
+        (c) => `illustra-${c.name}`
       );
       await downloadAllCards(cardElements, names, format, palette, animationParams);
     } finally {

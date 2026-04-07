@@ -10,8 +10,9 @@ function pick<T>(arr: readonly T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-const FILLS = ['primary', 'dark', 'complementary'] as const;
-const STROKES = ['primary', 'dark', 'complementary'] as const;
+// Primary-dominant colour pools — primary appears most often
+const FILLS = ['primary', 'primary', 'primary', 'complementary', 'complementary', 'tertiary'] as const;
+const STROKES = ['primary', 'primary', 'complementary', 'dark'] as const;
 
 function poly(cx: number, cy: number, r: number, sides: number): string {
   return Array.from({ length: sides }, (_, i) => {
@@ -1150,5 +1151,26 @@ export function generateComposition(): CompositionConfig {
   }
 
   const builder = pick(OBJECT_BUILDERS);
-  return { shapes: builder() };
+  const shapes = builder();
+  ensureFullOpacityShape(shapes);
+  return { shapes };
+}
+
+// Guarantee at least one shape per composition has opacity 1
+function ensureFullOpacityShape(shapes: ShapeConfig[]): void {
+  const hasFullOpacity = shapes.some(
+    s => (s.props.opacity as number) >= 0.95
+  );
+  if (!hasFullOpacity && shapes.length > 0) {
+    // Find the first filled shape (not stroke-only) and set it to 1
+    const filled = shapes.find(
+      s => s.props.fill && s.props.fill !== 'none'
+    );
+    if (filled) {
+      filled.props.opacity = 1;
+    } else {
+      // All stroke-only — set the first shape to full opacity
+      shapes[0].props.opacity = 1;
+    }
+  }
 }

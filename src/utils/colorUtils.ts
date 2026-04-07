@@ -6,19 +6,24 @@ export interface ColorPalette {
   dark: string;
   appBg: string;
   complementary: string;
+  tertiary: string;
   white: string;
   black: string;
   mode: ThemeMode;
 }
 
 export function getPalette(hue: number, mode: ThemeMode = 'dark'): ColorPalette {
+  const compHue = (hue + 180) % 360;
+  const triadHue = (hue + 120) % 360;
+
   if (mode === 'light') {
     return {
       primary: `hsl(${hue}, 65%, 45%)`,
       cardBg: `hsl(${hue}, 8%, 96%)`,
       dark: `hsl(${hue}, 12%, 25%)`,
       appBg: `hsl(${hue}, 5%, 92%)`,
-      complementary: `hsl(${(hue + 180) % 360}, 45%, 45%)`,
+      complementary: `hsl(${compHue}, 45%, 45%)`,
+      tertiary: `hsl(${triadHue}, 50%, 45%)`,
       white: `hsl(${hue}, 5%, 99%)`,
       black: `hsl(${hue}, 8%, 15%)`,
       mode,
@@ -29,7 +34,8 @@ export function getPalette(hue: number, mode: ThemeMode = 'dark'): ColorPalette 
     cardBg: `hsl(${hue}, 5%, 12%)`,
     dark: `hsl(${hue}, 10%, 75%)`,
     appBg: `hsl(${hue}, 3%, 7%)`,
-    complementary: `hsl(${(hue + 180) % 360}, 50%, 50%)`,
+    complementary: `hsl(${compHue}, 50%, 50%)`,
+    tertiary: `hsl(${triadHue}, 55%, 50%)`,
     white: `hsl(${hue}, 5%, 88%)`,
     black: `hsl(${hue}, 5%, 4%)`,
     mode,
@@ -44,10 +50,10 @@ export function updateCSSVariables(hue: number, mode: ThemeMode = 'dark'): void 
   root.style.setProperty('--color-dark', palette.dark);
   root.style.setProperty('--color-app-bg', palette.appBg);
   root.style.setProperty('--color-complementary', palette.complementary);
+  root.style.setProperty('--color-tertiary', palette.tertiary);
   root.style.setProperty('--color-white', palette.white);
   root.style.setProperty('--color-black', palette.black);
 
-  // Theme-aware UI tokens
   if (mode === 'light') {
     root.style.setProperty('--border-alpha', '0.1');
     root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.08)');

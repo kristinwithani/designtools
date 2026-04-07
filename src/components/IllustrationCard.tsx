@@ -13,9 +13,10 @@ interface IllustrationCardProps {
   delay: number;
   animating: boolean;
   animationParams: AnimationParams;
+  useTertiary: boolean;
 }
 
-export default function IllustrationCard({ card, palette, delay, animating, animationParams }: IllustrationCardProps) {
+export default function IllustrationCard({ card, palette, delay, animating, animationParams, useTertiary }: IllustrationCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleExport = useCallback(
@@ -42,6 +43,8 @@ export default function IllustrationCard({ card, palette, delay, animating, anim
           dark={palette.dark}
           light={palette.white}
           complementary={palette.complementary}
+          tertiary={palette.tertiary}
+          useTertiary={useTertiary}
           animated={animationParams.enabled}
           animationParams={animationParams}
           composition={card.composition}

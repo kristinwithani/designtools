@@ -15,7 +15,7 @@ export interface CompositionConfig {
 
 function renderShape(
   shape: ShapeConfig,
-  colors: { primary: string; dark: string; light: string; complementary: string }
+  colors: { primary: string; dark: string; light: string; complementary: string; tertiary: string }
 ) {
   const { type, props } = shape;
   const colorMap: Record<string, string> = {
@@ -23,6 +23,7 @@ function renderShape(
     dark: colors.dark,
     light: colors.light,
     complementary: colors.complementary,
+    tertiary: colors.tertiary,
   };
   const resolve = (v: unknown) => (typeof v === 'string' && v in colorMap ? colorMap[v] : v);
 
@@ -59,14 +60,20 @@ function renderShape(
 
 interface GenerativeProps extends IllustrationProps {
   composition: CompositionConfig;
+  tertiary: string;
+  useTertiary: boolean;
 }
 
 export default function Generative({
   primary, dark, light, complementary,
   animated = false, animationParams = DEFAULT_ANIMATION_PARAMS,
   composition,
+  tertiary,
+  useTertiary,
 }: GenerativeProps) {
-  const colors = { primary, dark, light, complementary };
+  // When tertiary is disabled, tertiary shapes fall back to complementary
+  const resolvedTertiary = useTertiary ? tertiary : complementary;
+  const colors = { primary, dark, light, complementary, tertiary: resolvedTertiary };
 
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">

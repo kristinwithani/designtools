@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import Toolbar from './components/Toolbar';
+import Sidebar from './components/Sidebar';
 import IllustrationGrid from './components/IllustrationGrid';
 import { getPalette, updateCSSVariables, type ThemeMode } from './utils/colorUtils';
 import { generateCards, type CardData } from './utils/randomiser';
@@ -17,6 +18,7 @@ function App() {
   const [animating, setAnimating] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [animationParams, setAnimationParams] = useState<AnimationParams>(DEFAULT_ANIMATION_PARAMS);
+  const [useTertiary, setUseTertiary] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const palette = getPalette(hue, mode);
@@ -65,21 +67,30 @@ function App() {
         hue={hue}
         onHueChange={setHue}
         onRegenerate={handleRegenerate}
-        onDownloadAll={handleDownloadAll}
-        isExporting={isExporting}
         animationParams={animationParams}
         onAnimationChange={setAnimationParams}
         mode={mode}
         onToggleMode={toggleMode}
+        useTertiary={useTertiary}
+        onToggleTertiary={() => setUseTertiary(t => !t)}
       />
-      <main className="main-content" ref={gridRef}>
-        <IllustrationGrid
-          cards={cards}
-          palette={palette}
-          animating={animating}
+      <div className="app-body">
+        <main className="main-content" ref={gridRef}>
+          <IllustrationGrid
+            cards={cards}
+            palette={palette}
+            animating={animating}
+            animationParams={animationParams}
+            useTertiary={useTertiary}
+          />
+        </main>
+        <Sidebar
           animationParams={animationParams}
+          onAnimationChange={setAnimationParams}
+          onDownloadAll={handleDownloadAll}
+          isExporting={isExporting}
         />
-      </main>
+      </div>
     </div>
   );
 }

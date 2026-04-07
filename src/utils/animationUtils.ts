@@ -48,16 +48,15 @@ export function getShapeStyle(
   const scaleAmount = params.scale;
 
   const animName = params.mode === 'spin' ? 'spin' : 'shape-motion';
-  const animations = [`${animName} ${duration} ${easing} infinite`];
+  // Bake delay into each animation shorthand to avoid mixing shorthand + longhand
+  const animations = [`${animName} ${duration} ${easing} ${delay} infinite`];
 
-  // Opacity is a separate animation since it doesn't use transform
   if (params.opacity > 0) {
-    animations.push(`fade ${duration} ${easing} infinite`);
+    animations.push(`fade ${duration} ${easing} ${delay} infinite`);
   }
 
   return {
     animation: animations.join(', '),
-    animationDelay: animations.map(() => delay).join(', '),
     transformOrigin: 'center center',
     ['--wiggle-intensity' as string]: `${wiggleIntensity}deg`,
     ['--drift-amount' as string]: `${driftAmount}px`,

@@ -8,9 +8,10 @@ interface IllustrationGridProps {
   palette: ColorPalette;
   animating: boolean;
   animationParams: AnimationParams;
+  useTertiary: boolean;
 }
 
-export default function IllustrationGrid({ cards, palette, animating, animationParams }: IllustrationGridProps) {
+export default function IllustrationGrid({ cards, palette, animating, animationParams, useTertiary }: IllustrationGridProps) {
   return (
     <div className="illustration-grid">
       {cards.map((card, i) => (
@@ -21,6 +22,7 @@ export default function IllustrationGrid({ cards, palette, animating, animationP
           delay={i * 50}
           animating={animating}
           animationParams={animationParams}
+          useTertiary={useTertiary}
         />
       ))}
     </div>

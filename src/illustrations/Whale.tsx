@@ -1,7 +1,7 @@
 import type { IllustrationProps } from './types';
 import { getShapeStyle, DEFAULT_ANIMATION_PARAMS } from '../utils/animationUtils';
 
-export default function Whale({ primary, dark, light, complementary, animated = false, animationParams = DEFAULT_ANIMATION_PARAMS }: IllustrationProps) {
+export default function Whale({ primary, dark, complementary, animated = false, animationParams = DEFAULT_ANIMATION_PARAMS }: IllustrationProps) {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
       <g style={getShapeStyle(0, animationParams, animated)}>

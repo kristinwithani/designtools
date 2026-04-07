@@ -6,7 +6,7 @@ function rand(min: number, max: number) {
 function randInt(min: number, max: number) {
   return Math.floor(rand(min, max + 1));
 }
-function pick<T>(arr: T[]): T {
+function pick<T>(arr: readonly T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 

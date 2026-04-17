@@ -32,7 +32,7 @@ function makeShapePath(points: string) {
   };
 }
 
-function makeFlickerKeyframes(totalFrames: number, fps: number, seed: number) {
+function makeFlickerKeyframes(totalFrames: number, seed: number) {
   // Generate opacity keyframes: randomly 0 or 100 every ~5 frames
   const keyframes: { t: number; s: number[] }[] = [];
   let rng = seed;
@@ -101,7 +101,7 @@ export function buildLottieJson(voxels: Voxel[], cubeSize: number): object {
       };
     };
 
-    const flickerKf = makeFlickerKeyframes(totalFrames, fps, i * 7919 + 42);
+    const flickerKf = makeFlickerKeyframes(totalFrames, i * 7919 + 42);
 
     return {
       ty: 4, // shape layer

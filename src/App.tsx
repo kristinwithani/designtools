@@ -213,7 +213,7 @@ export default function App() {
         <div className="flex flex-col" style={{ gap: 24 }}>
           {/* Header */}
           <div className="flex flex-col" style={{ gap: 4 }}>
-            <h1 className="text-xl font-semibold tracking-tight">Illustra 3.0</h1>
+            <h1 className="text-xl font-semibold tracking-tight">Cubescape</h1>
             <p className="text-[10px] text-white/25 uppercase tracking-[0.2em]">Voxel Generator</p>
           </div>
 
